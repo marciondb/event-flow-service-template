@@ -39,19 +39,39 @@ The directory structure below is **intentional and mandatory**, as defined in
 `service-design-principles.md`.
 
 ```
-src/
-  models/
-  logic/
-  controllers/
-  diplomat/
-    http/
-    client/
-    producer/
-    consumer/
-  adapters/
-  wire/
-    in/
-    out/
+service-name/
+│
+├── src/
+│ ├── models/
+│ ├── logic/
+│ ├── controllers/
+│ ├── diplomat/
+│ │ ├── http/
+│ │ ├── client/
+│ │ ├── producer/
+│ │ └── consumer/
+│ ├── adapters/
+│ └── wire/
+│ ├── in/
+│ └── out/
+│
+├── tests/
+│ ├── unit/
+│ └── integration/
+│
+├── docker/
+│ └── kafka/
+│ └── docker-compose.yml
+│
+├── scripts/
+│ └── dev.sh
+│
+├── .env.example
+├── package.json
+├── tsconfig.json
+├── jest.config.ts
+├── README.md
+└── CONTRIBUTING.md
 ```
 
 ---
