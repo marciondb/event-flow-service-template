@@ -1,0 +1,44 @@
+{
+  "name": "eventflow-service-template",
+  "version": "1.0.0",
+  "description": "Standard starting point for backend services in the EventFlow ecosystem",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=tests/unit",
+    "test:integration": "jest --testPathPattern=tests/integration",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts tests/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts tests/**/*.ts --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "eventflow",
+    "template",
+    "kafka",
+    "microservice"
+  ],
+  "author": "Marcio Dias",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "kafkajs": "^2.2.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
