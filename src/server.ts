@@ -5,7 +5,11 @@
  * Replace this placeholder with actual service initialization.
  */
 
-console.log('🚀 EventFlow Service starting...');
+
+function main(): number {
+    console.log("🚀 EventFlow Service starting...")
+    return 0;
+}
 
 // TODO: Initialize service components
 // - Load configuration
@@ -13,4 +17,5 @@ console.log('🚀 EventFlow Service starting...');
 // - Start HTTP server (if applicable)
 // - Register consumers
 
+main();
 export {};
