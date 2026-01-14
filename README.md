@@ -42,29 +42,25 @@ The directory structure below is **intentional and mandatory**, as defined in
 service-name/
 │
 ├── src/
-│ ├── models/
-│ ├── logic/
-│ ├── controllers/
-│ ├── diplomat/
-│ │ ├── http/
-│ │ ├── client/
-│ │ ├── producer/
-│ │ └── consumer/
-│ ├── adapters/
-│ └── wire/
-│ ├── in/
-│ └── out/
+│   ├── models/
+│   ├── logic/
+│   ├── controllers/
+│   ├── diplomat/
+│   │   ├── http/
+│   │   ├── client/
+│   │   ├── producer/
+│   │   └── consumer/
+│   ├── adapters/
+│   └── wire/
+│       ├── in/
+│       └── out/
 │
 ├── tests/
-│ ├── unit/
-│ └── integration/
-│
-├── docker/
-│ └── kafka/
-│ └── docker-compose.yml
+│   ├── unit/
+│   └── integration/
 │
 ├── scripts/
-│ └── dev.sh
+│   └── dev.sh
 │
 ├── .env.example
 ├── package.json
@@ -140,15 +136,25 @@ tests/
 
 ---
 
-## Kafka for Local Development
+## Kafka Configuration
 
-The template includes a local Kafka setup for development and testing.
+Services connect to an **existing Kafka infrastructure** via environment variables.
 
-Kafka is treated as a **core dependency**, not an optional add-on.
+The service is responsible for:
+- Consuming messages from Kafka topics
+- Producing messages to Kafka topics
 
-- Local Kafka configuration lives under `docker/`
-- Services can publish and consume events locally
-- Integration tests may depend on Kafka
+The service is **not** responsible for:
+- Running or managing Kafka infrastructure
+- Provisioning topics or brokers
+
+Configure connection details in `.env`:
+
+```bash
+KAFKA_BROKERS=localhost:9092
+KAFKA_CLIENT_ID=your-service-name
+KAFKA_GROUP_ID=your-service-group
+```
 
 ---
 
