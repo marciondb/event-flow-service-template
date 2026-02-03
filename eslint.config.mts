@@ -28,7 +28,8 @@ export default defineConfig([
             },
             parserOptions: {
                 projectService: {
-                    allowDefaultProject: ["*.config.ts", "*.config.mts"],
+                    allowDefaultProject: ["*.config.ts", "*.config.mts"],                    
+                    defaultProject: "./tsconfig.json",
                 },
                 tsconfigRootDir: import.meta.dirname,
             },

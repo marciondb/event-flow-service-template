@@ -29,7 +29,8 @@
       "@controllers/*": ["src/controllers/*"],
       "@diplomat/*": ["src/diplomat/*"],
       "@adapters/*": ["src/adapters/*"],
-      "@wire/*": ["src/wire/*"]
+      "@wire/*": ["src/wire/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
     }
   },
   "include": ["src/**/*"],
