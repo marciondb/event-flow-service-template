@@ -10,7 +10,7 @@ export interface Logger {
     error(message: string, meta?: LogMeta): void
 }
 
-interface LogInfo {
+export interface LogInfo {
     level: string
     message: string
     timestamp: string
