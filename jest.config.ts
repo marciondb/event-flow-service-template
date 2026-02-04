@@ -28,6 +28,7 @@ const config: Config = {
         "^@diplomat/(.*)$": "<rootDir>/src/diplomat/$1",
         "^@adapters/(.*)$": "<rootDir>/src/adapters/$1",
         "^@wire/(.*)$": "<rootDir>/src/wire/$1",
+        "^@infrastructure/(.*)$": "<rootDir>/src/infrastructure/$1",
     },
     verbose: true,
     clearMocks: true,
