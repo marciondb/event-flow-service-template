@@ -51,7 +51,6 @@ describe("Correlation", () => {
                 clearCorrelationId()
             }
             
-            // All IDs should be unique
             expect(ids.size).toBe(iterations)
         })
     })
@@ -153,31 +152,25 @@ describe("Correlation", () => {
 
     describe("workflow scenarios", () => {
         it("should support complete generate-use-clear workflow", () => {
-            // Generate
             const id = generateCorrelationId()
             expect(getCorrelationId()).toBe(id)
             expect(id).toBeDefined()
             
-            // Use
             const retrieved = getCorrelationId()
             expect(retrieved).toBe(id)
             
-            // Clear
             clearCorrelationId()
             expect(getCorrelationId()).toBeUndefined()
         })
 
         it("should support set-use-clear workflow", () => {
-            // Set
             const customId = "custom-workflow-id"
             setCorrelationId(customId)
             expect(getCorrelationId()).toBe(customId)
             
-            // Use
             const retrieved = getCorrelationId()
             expect(retrieved).toBe(customId)
             
-            // Clear
             clearCorrelationId()
             expect(getCorrelationId()).toBeUndefined()
         })
@@ -220,10 +213,8 @@ describe("Correlation", () => {
                 ids.push(id)
             }
             
-            // Last ID should be current
             expect(getCorrelationId()).toBe(ids[ids.length - 1])
             
-            // All IDs should be unique
             const uniqueIds = new Set(ids)
             expect(uniqueIds.size).toBe(ids.length)
         })
