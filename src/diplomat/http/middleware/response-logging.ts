@@ -22,6 +22,6 @@ export function responseLoggingMiddleware(
         statusCode: reply.statusCode,
         duration,
     })
-    
+
     return Promise.resolve()
 }
