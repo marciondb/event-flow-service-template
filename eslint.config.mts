@@ -27,10 +27,7 @@ export default defineConfig([
                 ...globals.es2022,
             },
             parserOptions: {
-                projectService: {
-                    allowDefaultProject: ["*.config.ts", "*.config.mts"],                    
-                    defaultProject: "./tsconfig.json",
-                },
+                projectService: true,
                 tsconfigRootDir: import.meta.dirname,
             },
         },
