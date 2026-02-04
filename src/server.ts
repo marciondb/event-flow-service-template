@@ -14,9 +14,20 @@ function main(): number {
 }
 
 // TODO: Initialize service components
-// helmet
-// morgan
-// cors
+// import fastify from "fastify"
+// import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
+// import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
+
+// const app = fastify({ logger: false })
+
+// // Registra os middlewares
+// app.addHook("onRequest", requestLoggingMiddleware)
+// app.addHook("onResponse", responseLoggingMiddleware)
+
+// // Suas rotas...
+// app.get("/health", async () => ({ status: "ok" }))
+
+// await app.listen({ port: 3000 })
 
 main();
 export {};
