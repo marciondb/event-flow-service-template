@@ -141,6 +141,19 @@ Includes:
 
 ## Infrastructure Layer
 
+> **⚠️ Architectural Note:**
+> 
+> The `infrastructure/` utilities (correlation ID, logger wrapper) are implemented **inline in this template** for convenience and learning purposes.
+> 
+> In a production multi-service ecosystem, these would typically be:
+> - Extracted into shared npm packages (e.g., `@eventflow/correlation`, `@eventflow/logger`)
+> - Installed as dependencies in each service
+> - Versioned and maintained independently
+> 
+> **Trade-off:** This approach duplicates code and tests across all services created from this template. However, it avoids the overhead of managing separate repositories and npm publishing during the learning phase.
+> 
+> As the EventFlow ecosystem matures, these utilities may be extracted into dedicated packages.
+
 The template includes a **pre-configured infrastructure layer** with:
 
 ### Logger
@@ -331,6 +344,9 @@ npm run typecheck
 This template includes working implementations of:
 
 ### ✅ Infrastructure Layer
+
+> **Note:** These utilities are intentionally duplicated across services for simplicity. In production systems, they would typically be extracted into shared npm packages.
+
 - **Logger** - Production-ready Winston logger with:
   - Structured JSON logging
   - Correlation ID support
