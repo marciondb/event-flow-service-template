@@ -4,7 +4,7 @@
   "description": "Standard starting point for backend services in the EventFlow ecosystem",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
     "test": "jest",
@@ -45,6 +45,7 @@
     "winston": "^3.19.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=24.0.0",
+    "npm": ">=10.0.0"
   }
 }
