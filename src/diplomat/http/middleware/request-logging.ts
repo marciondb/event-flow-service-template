@@ -17,19 +17,22 @@ import { setRequestStartTime } from "./request-timing"
 export function requestLoggingMiddleware(
     request: FastifyRequest,
     reply: FastifyReply
-): void {
+): Promise<void> {
     setRequestStartTime(request)
+    
     const correlationHeader = request.headers["x-correlation-id"]
     const cid = typeof correlationHeader === "string"
         ? correlationHeader
         : generateCorrelationId()
 
     setCorrelationId(cid)
-    reply.header("x-correlation-id", cid)
+    void reply.header("x-correlation-id", cid)
 
     logger.info("HTTP Request", {
         method: request.method,
         url: request.url,
         ip: request.ip,
     })
+    
+    return Promise.resolve()
 }

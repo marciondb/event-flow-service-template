@@ -13,7 +13,7 @@ import { getRequestDuration } from "./request-timing"
 export function responseLoggingMiddleware(
     request: FastifyRequest,
     reply: FastifyReply
-): void {
+): Promise<void> {
     const duration = getRequestDuration(request)
 
     logger.info("HTTP Response", {
@@ -22,4 +22,6 @@ export function responseLoggingMiddleware(
         statusCode: reply.statusCode,
         duration,
     })
+    
+    return Promise.resolve()
 }
