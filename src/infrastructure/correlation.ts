@@ -1,4 +1,3 @@
-// src/infrastructure/correlation.ts
 import { randomUUID } from "crypto"
 
 let currentCorrelationId: string | undefined
