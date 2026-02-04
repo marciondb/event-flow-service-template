@@ -5,29 +5,47 @@
  * Replace this placeholder with actual service initialization.
  */
 import "dotenv/config"
-import { logger } from "@infrastructure/logger";
+import { logger } from "@infrastructure/logger"
+import { config } from "@infrastructure/config"
+import helmet from "@fastify/helmet"
+// import cors from "@fastify/cors"
+// import swagger from "@fastify/swagger"
+// import { ZodTypeProvider } from "fastify-type-provider-zod"
+import fastify from "fastify"
+import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
+import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
 
+const app = fastify({ logger: false })
 
-function main(): number {
+app.register(helmet, {
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+        }
+    }
+})
+
+app.addHook("onRequest", requestLoggingMiddleware)
+app.addHook("onResponse", responseLoggingMiddleware)
+
+app.get("/health", () => ({ status: "ok" }))
+
+async function main(): Promise<void> {
     logger.info("🚀 EventFlow Service starting...")
-    return 0;
+
+    const address = await app.listen({
+        port: config.port,
+        host: "0.0.0.0"
+    })
+
+    logger.info("✅ Server is running", {
+        url: address,
+        port: config.port
+    })
 }
 
-// TODO: Initialize service components
-// import fastify from "fastify"
-// import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
-// import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
-
-// const app = fastify({ logger: false })
-
-// // Registra os middlewares
-// app.addHook("onRequest", requestLoggingMiddleware)
-// app.addHook("onResponse", responseLoggingMiddleware)
-
-// // Suas rotas...
-// app.get("/health", async () => ({ status: "ok" }))
-
-// await app.listen({ port: 3000 })
-
-main();
-export {};
+main().catch((error: unknown) => {
+    const message = error instanceof Error ? error.message : String(error)
+    logger.error("❌ Failed to start server", { error: message })
+    process.exit(1)
+})
