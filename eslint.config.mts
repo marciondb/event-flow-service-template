@@ -27,7 +27,9 @@ export default defineConfig([
                 ...globals.es2022,
             },
             parserOptions: {
-                projectService: true,
+                projectService: {
+                    allowDefaultProject: ["*.config.ts", "*.config.mts", "*.config.js"],
+                },
                 tsconfigRootDir: import.meta.dirname,
             },
         },
