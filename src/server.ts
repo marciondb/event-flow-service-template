@@ -7,7 +7,7 @@
 import "dotenv/config"
 import { logger } from "@infrastructure/logger"
 import { config } from "@infrastructure/config"
-import helmet from "@fastify/helmet"
+import {fastifyHelmet} from "@fastify/helmet"
 // import cors from "@fastify/cors"
 // import swagger from "@fastify/swagger"
 // import { ZodTypeProvider } from "fastify-type-provider-zod"
@@ -17,7 +17,7 @@ import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-lo
 
 const app = fastify({ logger: false })
 
-app.register(helmet, {
+app.register(fastifyHelmet, {
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
