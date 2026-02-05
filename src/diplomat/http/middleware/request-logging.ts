@@ -21,10 +21,12 @@ export function requestLoggingMiddleware(
     setRequestStartTime(request)
     
     const correlationHeader = request.headers["x-correlation-id"]
-    const cid = typeof correlationHeader === "string"
-        ? correlationHeader
-        : generateCorrelationId()
-
+    const parentCid = typeof correlationHeader === "string" 
+        ? correlationHeader 
+        : undefined
+    
+    const cid = generateCorrelationId(parentCid)
+    
     setCorrelationId(cid)
     void reply.header("x-correlation-id", cid)
 
