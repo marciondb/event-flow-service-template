@@ -19,11 +19,12 @@ describe("Correlation", () => {
             expect(id.length).toBeGreaterThan(0)
         })
 
-        it("should generate a valid UUID v4 format", () => {
+        it("should generate an 8-character hex ID when no parent", () => {
             const id = generateCorrelationId()
-            const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+            const hexRegex = /^[0-9a-f]{8}$/i
             
-            expect(id).toMatch(uuidRegex)
+            expect(id).toMatch(hexRegex)
+            expect(id.length).toBe(8)
         })
 
         it("should set the generated ID as current", () => {
@@ -52,6 +53,57 @@ describe("Correlation", () => {
             }
             
             expect(ids.size).toBe(iterations)
+        })
+
+        it("should chain with parent ID", () => {
+            const parentId = "abc12345"
+            const id = generateCorrelationId(parentId)
+            
+            expect(id).toContain(parentId)
+            expect(id).toContain(".")
+            expect(id.startsWith(parentId + ".")).toBe(true)
+        })
+
+        it("should generate format parentId.segment when parent exists", () => {
+            const parentId = "parent123"
+            const id = generateCorrelationId(parentId)
+            const parts = id.split(".")
+            
+            expect(parts.length).toBe(2)
+            expect(parts[0]).toBe(parentId)
+            expect(parts[1]?.length).toBe(8)
+        })
+
+        it("should handle nested chaining", () => {
+            const id1 = generateCorrelationId()
+            const id2 = generateCorrelationId(id1)
+            const id3 = generateCorrelationId(id2)
+            
+            expect(id1.split(".").length).toBe(1)
+            expect(id2.split(".").length).toBe(2)
+            expect(id3.split(".").length).toBe(3)
+            
+            expect(id3).toContain(id1)
+            expect(id3).toContain(id2)
+        })
+
+        it("should treat empty string parent as no parent", () => {
+            const id = generateCorrelationId("")
+            
+            expect(id).not.toContain(".")
+            expect(id.length).toBe(8)
+        })
+
+        it("should generate different segments for same parent", () => {
+            const parentId = "parent"
+            const id1 = generateCorrelationId(parentId)
+            clearCorrelationId()
+            const id2 = generateCorrelationId(parentId)
+            
+            expect(id1).not.toBe(id2)
+            expect(id1.split(".")[0]).toBe(parentId)
+            expect(id2.split(".")[0]).toBe(parentId)
+            expect(id1.split(".")[1]).not.toBe(id2.split(".")[1])
         })
     })
 
