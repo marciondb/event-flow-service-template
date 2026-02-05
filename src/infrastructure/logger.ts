@@ -1,5 +1,5 @@
 import winston from "winston"
-import type { Logger, LogMeta, LogInfo } from "./ports"
+import type { Logger, LogMeta, LogInfo } from "./interfaces"
 import { getCorrelationId } from "./correlation"
 import { config } from "./config"
 
