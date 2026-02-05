@@ -11,7 +11,7 @@ import helmet from "@fastify/helmet"
 // import cors from "@fastify/cors"
 // import swagger from "@fastify/swagger"
 // import { ZodTypeProvider } from "fastify-type-provider-zod"
-import fastify from "fastify"
+import { fastify } from "fastify"
 import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
 import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
 

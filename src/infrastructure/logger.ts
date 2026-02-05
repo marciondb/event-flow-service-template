@@ -17,12 +17,23 @@ class WinstonLogger implements Logger {
                         const logInfo = info as unknown as LogInfo
                         const { level, message, timestamp, service, cid, ...meta } = logInfo
                         
-                        const cidStr = cid !== undefined ? `[${cid}] ` : ""
+                        const cidShort = cid !== undefined ? cid.slice(0, 8) : "--------"
+                        
+                        const method = meta.method as string | undefined
+                        const url = meta.url as string | undefined
+                        const statusCode = meta.statusCode as number | undefined
+                        const durationMs = meta.durationMs as number | undefined
+                        
+                        if (method !== undefined && url !== undefined && statusCode !== undefined) {
+                            const durationStr = durationMs !== undefined ? ` ${String(durationMs)}ms` : ""
+                            return `${timestamp} ${level} [${service}] cid=${cidShort} ${method} ${url} ${String(statusCode)}${durationStr}`
+                        }
+                        
                         const metaStr = Object.keys(meta).length > 0 
                             ? `\n${JSON.stringify(meta, null, 2)}` 
                             : ""
                         
-                        return `${timestamp} ${level} [${service}] ${cidStr}${message}${metaStr}`
+                        return `${timestamp} ${level} [${service}] [${cidShort}] ${message}${metaStr}`
                     })
                 )
                 : winston.format.json()

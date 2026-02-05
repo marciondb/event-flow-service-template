@@ -28,7 +28,7 @@ export function requestLoggingMiddleware(
     setCorrelationId(cid)
     void reply.header("x-correlation-id", cid)
 
-    logger.info("HTTP Request", {
+    logger.info("←", {
         method: request.method,
         url: request.url,
         ip: request.ip,

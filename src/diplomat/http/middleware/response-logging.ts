@@ -16,12 +16,12 @@ export function responseLoggingMiddleware(
 ): Promise<void> {
     const duration = getRequestDuration(request)
 
-    logger.info("HTTP Response", {
+    logger.info("→", {
         method: request.method,
         url: request.url,
         statusCode: reply.statusCode,
-        duration,
+        durationMs: duration,
     })
-
+    
     return Promise.resolve()
 }
