@@ -10,8 +10,13 @@ export function setCorrelationId(id: string): void {
     currentCorrelationId = id
 }
 
-export function generateCorrelationId(): string {
-    const id = randomUUID()
+export function generateCorrelationId(parentId?: string): string {
+    const segment = randomUUID().slice(0, 8)
+    
+    const id = parentId !== undefined && parentId !== ""
+        ? `${parentId}.${segment}`
+        : segment
+    
     setCorrelationId(id)
     return id
 }
