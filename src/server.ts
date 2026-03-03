@@ -8,19 +8,51 @@ import "dotenv/config"
 import { logger } from "@infrastructure/logger"
 import { config } from "@infrastructure/config"
 import {fastifyHelmet} from "@fastify/helmet"
-// import cors from "@fastify/cors"
-// import swagger from "@fastify/swagger"
-// import { ZodTypeProvider } from "fastify-type-provider-zod"
+import {fastifyCors} from "@fastify/cors"
+import { serializerCompiler,
+    validatorCompiler,
+    jsonSchemaTransform,
+    type ZodTypeProvider,
+} from "fastify-type-provider-zod"
+import { fastifySwagger } from "@fastify/swagger"
+import ScalarApiReference from "@scalar/fastify-api-reference"
+
 import { fastify } from "fastify"
 import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
 import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
 
-const app = fastify({ logger: false })
+const app = fastify({ logger: false }).withTypeProvider<ZodTypeProvider>()
+
+app.setValidatorCompiler(validatorCompiler)
+app.setSerializerCompiler(serializerCompiler)
+
+app.register(fastifyCors, {
+    origin: "true",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+})
+
+app.register(fastifySwagger, {
+    openapi: {
+        info: {
+            title: "EventFlow Service",
+            description: "EventFlow Service",
+            version: "1.0.0",
+        },
+    },
+    transform: jsonSchemaTransform,
+})
+
+void app.register(ScalarApiReference as never, {
+    routePrefix: "/docs",
+})
 
 app.register(fastifyHelmet, {
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            imgSrc: ["'self'", "data:", "https:"],
         }
     }
 })
