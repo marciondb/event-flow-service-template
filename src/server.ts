@@ -15,8 +15,6 @@ import { serializerCompiler,
     type ZodTypeProvider,
 } from "fastify-type-provider-zod"
 import { fastifySwagger } from "@fastify/swagger"
-import ScalarApiReference from "@scalar/fastify-api-reference"
-
 import { fastify } from "fastify"
 import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
 import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
@@ -42,17 +40,14 @@ app.register(fastifySwagger, {
     transform: jsonSchemaTransform,
 })
 
-void app.register(ScalarApiReference as never, {
-    routePrefix: "/docs",
-})
-
 app.register(fastifyHelmet, {
+    global: true,
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-            styleSrc: ["'self'", "'unsafe-inline'"],
-            imgSrc: ["'self'", "data:", "https:"],
+            scriptSrc: ["'self'"],
+            styleSrc: ["'self'"],
+            imgSrc: ["'self'", "data:"],
         }
     }
 })
@@ -61,6 +56,9 @@ app.addHook("onRequest", requestLoggingMiddleware)
 app.addHook("onResponse", responseLoggingMiddleware)
 
 app.get("/health", () => ({ status: "ok" }))
+
+app.get("/documentation/json", () => app.swagger())
+app.get("/documentation/yaml", () => app.swagger({ yaml: true }))
 
 async function main(): Promise<void> {
     logger.info("🚀 EventFlow Service starting...")
