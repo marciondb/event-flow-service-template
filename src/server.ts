@@ -18,6 +18,7 @@ import { fastifySwagger } from "@fastify/swagger"
 import { fastify } from "fastify"
 import { requestLoggingMiddleware } from "@diplomat/http/middleware/request-logging"
 import { responseLoggingMiddleware } from "@diplomat/http/middleware/response-logging"
+import { httpServer } from "@diplomat/http/http_server"
 
 const app = fastify({ logger: false }).withTypeProvider<ZodTypeProvider>()
 
@@ -55,7 +56,7 @@ app.register(fastifyHelmet, {
 app.addHook("onRequest", requestLoggingMiddleware)
 app.addHook("onResponse", responseLoggingMiddleware)
 
-app.get("/health", () => ({ status: "ok" }))
+app.register(httpServer)
 
 app.get("/documentation/json", () => app.swagger())
 app.get("/documentation/yaml", () => app.swagger({ yaml: true }))
